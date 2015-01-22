@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>i Kiss power</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<style>
+		body{
+			padding: 0;
+			margin: 0;
+			height: 100%;
+			width: 100%;
+			overflow: hidden;
+		}
+		.content{
+			overflow: hidden;
+			/* background-color: black; */
+			position: absolute;
+			top:0;
+			bottom:0;
+			left: 0px;
+			right: 0px;
+			z-index: 1;
+			opacity: 1;
+			text-align: center;
+		}
+		div{
+			-webkit-backface-visibility: hidden;
+		}
+		.content>div{
+			position: absolute;
+			padding: 22px;
+		}
+		.left-arrow{
+			left: 10px;
+			width:1px;
+			border-right: 45px solid rgba(0,0,0, .4);
+			border-top: 45px solid transparent;
+			border-bottom: 45px solid transparent;
+		}
+		.right-arrow{
+			right: 10px;
+			width:1px;
+			border-left: 45px solid rgba(0,0,0, .4);
+			border-top: 45px solid transparent;
+			border-bottom: 45px solid transparent;
+		}
+		.left-arrow, .right-arrow{
+			top: 50%;
+			margin-top: -45px;
+			position: absolute;
+			/* opacity: .2; */
+			z-index: 8;
+		}
+		.side{
+			/* -webkit-transition: background-color 0.1s linear, opacity 0.2s linear; 
+			 transition: background-color 0.1s linear, opacity 0.2s linear; */
+			position: absolute;
+			top:0;
+			bottom: 0;
+			width: 100px;
+			/* background-color: red; */
+			z-index: 8;
+			-webkit-user-select: none;  /* Chrome all / Safari all */
+			-moz-user-select: none;     /* Firefox all */
+			-ms-user-select: none;      /* IE 10+ */
+			
+			/* No support for these yet, use at own risk */
+			-o-user-select: none;
+			user-select: none;     
+		}
+		.side.hide{
+			display: none;
+		}
+		.side.touch-down{
+			background-color: rgba(0, 0,0, .5);
+		}
+		.right-side{
+			right: 0;
+		}
+		
+		#cont01{
+			/* background: url(nip-cover.jpg);
+			background: url(nip-cover.jpg) center/cover; */
+		}
+		#cont02{
+			background: blue;
+		}
+		#cont03{
+			background: green;
+		}
+		.opacity-trans{
+			-webkit-transition: opacity 800ms linear;
+			transition: opacity 800ms linear;
+		}
+		.content-hide{
+			opacity: 0;
+		}
+		
+		
+		/** animation */
+		@-webkit-keyframes lightSpeedIn {
+		  0% {
+			-webkit-transform: translate3d(100%, 0, 0) skewX(-30deg);
+					transform: translate3d(100%, 0, 0) skewX(-30deg);
+			opacity: 0;
+		  }
+		
+		  60% {
+			-webkit-transform: skewX(20deg);
+					transform: skewX(20deg);
+			opacity: 1;
+		  }
+		
+		  80% {
+			-webkit-transform: skewX(-5deg);
+					transform: skewX(-5deg);
+			opacity: 1;
+		  }
+		
+		  100% {
+			-webkit-transform: none;
+					transform: none;
+			opacity: 1;
+		  }
+		}
+		
+		@keyframes lightSpeedIn {
+		  0% {
+			-webkit-transform: translate3d(100%, 0, 0) skewX(-30deg);
+					transform: translate3d(100%, 0, 0) skewX(-30deg);
+			opacity: 0;
+		  }
+		
+		  60% {
+			-webkit-transform: skewX(20deg);
+					transform: skewX(20deg);
+			opacity: 1;
+		  }
+		
+		  80% {
+			-webkit-transform: skewX(-5deg);
+					transform: skewX(-5deg);
+			opacity: 1;
+		  }
+		
+		  100% {
+			-webkit-transform: none;
+					transform: none;
+			opacity: 1;
+		  }
+		}
+		
+		.lightSpeedIn {
+		  -webkit-animation-name: lightSpeedIn;
+				  animation-name: lightSpeedIn;
+		  -webkit-animation-timing-function: ease-out;
+				  animation-timing-function: ease-out;
+		}
+		
+		
+		
+		
+		@-webkit-keyframes lightSpeedInLeft {
+		  0% {
+			-webkit-transform: translate3d(-100%, 0, 0) skewX(-30deg);
+					transform: translate3d(-100%, 0, 0) skewX(-30deg);
+			opacity: 0;
+		  }
+		
+		  60% {
+			-webkit-transform: skewX(20deg);
+					transform: skewX(20deg);
+			opacity: 1;
+		  }
+		
+		  80% {
+			-webkit-transform: skewX(-5deg);
+					transform: skewX(-5deg);
+			opacity: 1;
+		  }
+		
+		  100% {
+			-webkit-transform: none;
+					transform: none;
+			opacity: 1;
+		  }
+		}
+		
+		@keyframes lightSpeedInLeft {
+		  0% {
+			-webkit-transform: translate3d(-100%, 0, 0) skewX(-30deg);
+					transform: translate3d(-100%, 0, 0) skewX(-30deg);
+			opacity: 0;
+		  }
+		
+		  60% {
+			-webkit-transform: skewX(20deg);
+					transform: skewX(20deg);
+			opacity: 1;
+		  }
+		
+		  80% {
+			-webkit-transform: skewX(-5deg);
+					transform: skewX(-5deg);
+			opacity: 1;
+		  }
+		
+		  100% {
+			-webkit-transform: none;
+					transform: none;
+			opacity: 1;
+		  }
+		}
+		
+		.lightSpeedInLeft {
+		  -webkit-animation-name: lightSpeedInLeft;
+				  animation-name: lightSpeedInLeft;
+		  -webkit-animation-timing-function: ease-out;
+				  animation-timing-function: ease-out;
+		}
+		
+		
+		.animated {
+		  -webkit-animation-duration: 1s;
+				  animation-duration: 1s;
+		  -webkit-animation-fill-mode: both;
+				  animation-fill-mode: both;
+		}
+		
+		.animated.infinite {
+		  -webkit-animation-iteration-count: infinite;
+				  animation-iteration-count: infinite;
+		}
+		
+		.animated.hinge {
+		  -webkit-animation-duration: 2s;
+				  animation-duration: 2s;
+		}
+		</style>
+	</head>
+	
+	<body>
+	<div class="left-side side">
+		<div class="left-arrow"></div>
+	</div>
+	<div class="right-side side">
+		<div class="right-arrow"></div>
+	</div>
+	
+	<div id="cont01" class="content cont01 animated ">
+		<!-- hello Tommy, put your content here -->
+		<img src="nip-cover.jpg">
+		<div> hellow power hellow power hellow power hellow power hellow power hellow power</div>
+	</div>
+	
+	<div id="cont02" class="content cont02 content-hide animated ">
+		<!-- put your content here -->
+	</div>
+	
+	<div id="cont03" class="content cont03 content-hide animated ">
+		<!-- put your content here -->
+	</div>
+	<script src="jquery-2.1.3.min.js"></script>
+	<script src="jquery.mobile.custom.min.js"></script>
+	<script>
+		
+	
+		$('document').ready(function(){
+			var index = 0;
+			var side = $('.side');
+			var contents = $('.content');
+			var animating = false;
+			
+			side.on('vmousedown', function(e){
+				//if(animating)
+				//	return;
+				$(e.currentTarget).addClass('touch-down');
+				//contents.css({willChange: 'transform, opacity'});
+			});
+			$('body').on('vmouseup', function(e){
+				side.removeClass('touch-down');
+				//e.preventDefault();
+				//e.stopPropagation();
+			});
+			$('.right-side').on('vmouseup', function(e){
+				//if(animating)
+				//	return;
+				setTimeout(function(){
+					if(index === contents.length - 1)
+						return;
+					switchContent(contents.eq(index), contents.eq(++index), false);
+					
+					arrowUpdate();
+				}, 20);
+			});
+			
+			$('.left-side').on('vmouseup', function(e){
+				//if(animating)
+				//	return;
+				setTimeout(function(){
+					if( index === 0)
+						return;
+					switchContent(contents.eq(index), contents.eq(--index), true);
+					
+					arrowUpdate();
+				}, 20);
+			});
+			
+			var leftSide = $('.left-side'), rightSide = $('.right-side');
+			function arrowUpdate(){
+				if(index === 0){
+					leftSide.addClass('hide');
+				}else if(index === contents.length -1){
+					rightSide.addClass('hide');
+				}else{
+					side.removeClass('hide');
+				}
+				//contents.eq(index).html(index+ '');
+			}
+			
+			function reflow(then){
+				document.body.offsetWidth + 1;
+				setTimeout(then, 1);
+			}
+			
+		
+			
+			arrowUpdate();
+			
+			
+			function switchContent(curr, next){
+				curr.addClass('content-hide');
+				curr.css({display: 'none'});
+				next.css({display:'block'});
+				next.removeClass('content-hide');
+				arrowUpdate();
+			}
+		});
+	</script>
+	</body>
+</html>
