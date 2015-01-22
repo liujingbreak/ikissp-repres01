@@ -13,7 +13,6 @@
 		}
 		.content{
 			overflow: hidden;
-			/* background-color: black; */
 			position: absolute;
 			top:0;
 			bottom:0;
@@ -29,6 +28,9 @@
 		.content>div{
 			position: absolute;
 			padding: 22px;
+			z-index: 10;
+			text-align: left;
+			top:0;
 		}
 		.left-arrow{
 			left: 10px;
@@ -48,7 +50,6 @@
 			top: 50%;
 			margin-top: -45px;
 			position: absolute;
-			/* opacity: .2; */
 			z-index: 8;
 		}
 		.side{
@@ -79,14 +80,12 @@
 		}
 		
 		#cont01{
-			/* background: url(nip-cover.jpg);
-			background: url(nip-cover.jpg) center/cover; */
 		}
 		#cont02{
-			background: blue;
+			background: #e1fafa; /* remove me */
 		}
 		#cont03{
-			background: green;
+			background: #d7d7fb; /* remove me */
 		}
 		.opacity-trans{
 			-webkit-transition: opacity 800ms linear;
