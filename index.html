@@ -52,9 +52,19 @@
 			position: absolute;
 			z-index: 8;
 		}
+		.touch-down .left-arrow{
+			border-right: 45px solid rgba(255,255,255, .4);
+			border-top: 45px solid transparent;
+			border-bottom: 45px solid transparent;
+		}
+		.touch-down .right-arrow{
+		 	border-left: 45px solid rgba(255,255,255, .4);
+			border-top: 45px solid transparent;
+			border-bottom: 45px solid transparent;
+		}
 		.side{
-			/* -webkit-transition: background-color 0.1s linear, opacity 0.2s linear; 
-			 transition: background-color 0.1s linear, opacity 0.2s linear; */
+			-webkit-transition: background-color 0.15s linear, opacity 0.2s linear; 
+			transition: background-color 0.15s linear, opacity 0.2s linear;
 			position: absolute;
 			top:0;
 			bottom: 0;
@@ -73,7 +83,7 @@
 			display: none;
 		}
 		.side.touch-down{
-			background-color: rgba(0, 0,0, .5);
+			background-color: rgba(0, 0,0, .2);
 		}
 		.right-side{
 			right: 0;
@@ -251,12 +261,12 @@
 	</head>
 	
 	<body>
-	<a href="javascript: onLeft()">
+	<a href="#1">
 		<div class="left-side side">
 			<div class="left-arrow"></div>
 		</div>
 	</a>
-	<a href="javascript: onRight()">
+	<a href="#2">
 		<div class="right-side side">
 			<div class="right-arrow"></div>
 		</div>
@@ -282,73 +292,73 @@
 		function onRight(e){
 			if(animating)
 				return;
-			setTimeout(function(){
-				if(index === contents.length - 1)
-					return;
-				switchContent(contents.eq(index), contents.eq(++index), false);
-				
-				arrowUpdate();
-			}, 20);
+			if(index === contents.length - 1)
+				return;
+			switchContent(contents.eq(index), contents.eq(++index), false);
+			arrowUpdate();
+			$(e.currentTarget).removeClass('touch-down');
+			e.preventDefault();
+			e.stopPropagation();
 		}
 		function onLeft(e){
 			if(animating)
 				return;
-			setTimeout(function(){
-				if( index === 0)
-					return;
-				switchContent(contents.eq(index), contents.eq(--index), true);
-				
-				arrowUpdate();
-			}, 20);
+			if( index === 0)
+				return;
+			switchContent(contents.eq(index), contents.eq(--index), true);
+			arrowUpdate();
+			$(e.currentTarget).removeClass('touch-down');
+			e.preventDefault();
+			e.stopPropagation();
 		}
 		function arrowUpdate(){
-				if(index === 0){
-					leftSide.addClass('hide');
-				}else if(index === contents.length -1){
-					rightSide.addClass('hide');
-				}else{
-					side.removeClass('hide');
+			if(index === 0){
+				leftSide.addClass('hide');
+			}else if(index === contents.length -1){
+				rightSide.addClass('hide');
+			}else{
+				side.removeClass('hide');
+			}
+			//contents.eq(index).html(index+ '');
+		}
+		
+		function reflow(then){
+			document.body.offsetWidth + 1;
+			setTimeout(then, 1);
+		}
+		
+		function switchContent(curr, next, isLeft){
+			animating = true;
+			curr.addClass('opacity-trans');
+			curr.addClass('out');
+			var anName = 'lightSpeedIn' + (isLeft? 'Left': '');
+			var inName = (isLeft? 'l':'r')+ '-in';
+			reflow(function(){
+				curr.addClass('content-hide');
+				setTimeout(function(){
+					//curr.css({display: 'none'});
+					curr.removeClass('out');
+					curr.detach();
+					curr.data('removed', true);
+				}, 1000);
+				if(next.data('removed')){
+					body.append(next);
 				}
-				//contents.eq(index).html(index+ '');
-			}
-			
-			function reflow(then){
-				document.body.offsetWidth + 1;
-				setTimeout(then, 1);
-			}
-			
-			function switchContent(curr, next, isLeft){
-				animating = true;
-				curr.addClass('opacity-trans');
-				curr.addClass('out');
-				var anName = 'lightSpeedIn' + (isLeft? 'Left': '');
-				var inName = (isLeft? 'l':'r')+ '-in';
-				reflow(function(){
-					curr.addClass('content-hide');
+				//next.css({display:'block'});
+				next.addClass(inName);
+				next.removeClass('content-hide');
+				next.removeClass('opacity-trans');
+				
+				setTimeout(function(){
+					next.addClass(anName);
 					setTimeout(function(){
-						//curr.css({display: 'none'});
-						curr.removeClass('out');
-						curr.detach();
-						curr.data('removed', true);
-					}, 1000);
-					if(next.data('removed')){
-						body.append(next);
-					}
-					//next.css({display:'block'});
-					next.addClass(inName);
-					next.removeClass('content-hide');
-					next.removeClass('opacity-trans');
-					
-					setTimeout(function(){
-						next.addClass(anName);
-						setTimeout(function(){
-							next.removeClass(inName);
-							next.removeClass(anName);
-							animating = false;
-							}, 1050);
-					}, 20);
-				});
-			}
+						next.removeClass(inName);
+						next.removeClass(anName);
+						animating = false;
+						}, 1050);
+				}, 20);
+			});
+		}
 			
 		$('document').ready(function(){
 			index = 0;
@@ -364,7 +374,7 @@
 				$(e.currentTarget).addClass('touch-down');
 				//contents.css({willChange: 'transform, opacity'});
 			});
-			$('body').on('click', function(e){
+			$('body').on('vmouseup', function(e){
 				side.removeClass('touch-down');
 				e.preventDefault();
 				e.stopPropagation();
